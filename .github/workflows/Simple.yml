@@ -9,10 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
       - name: Install NPM dependencies
         run: npm install
       - name: Build Site
         run: npm run build
-      - name: Deploy to Heroku
-        run: git push heroku main:master
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: next-ci-cd
+          heroku_email: abenezerzeleke9@gmail.com
