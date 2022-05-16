@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v1
       - name: Install NPM dependencies
-        uses: npm Install
+        run: npm Install
       - name: Build Site
-        uses: npm run build
+        run: npm run build
