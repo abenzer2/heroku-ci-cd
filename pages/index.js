@@ -12,7 +12,7 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <p>Hello Heroku</p>
+        <p>Hello Staging</p>
       </main>
 
       <footer className={styles.footer}>
