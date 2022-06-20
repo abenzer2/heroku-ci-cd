@@ -27,8 +27,6 @@ const BeforeUnloadCheck = () => {
         throw "routeChange aborted.";
     };
 
-    console.log('is safari mobile',isSafariMobile())
-
     useEffect(() => {
         if (isSafariMobile()) {
             window.addEventListener('focus',handleBrowseAway);
