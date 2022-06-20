@@ -46,22 +46,20 @@ const BeforeUnloadCheck = () => {
 
     useEffect(() => {
         if(!navigator) return;
-        if (isIphone) {
-        window.addEventListener('pagehide',beforeUnloadHandler);
         router.events.on("routeChangeStart", beforeRouteHandler);
+        if (isIphone) {
+        window.addEventListener('pagehide',beforeRouteHandler);
         }
         else {
         window.addEventListener("beforeunload",beforeUnloadHandler);
-        router.events.on("routeChangeStart", beforeRouteHandler);
         }
         return () => {
-            if (isIphone) {
-            window.removeEventListener('pagehide',beforeUnloadHandler);
             router.events.off("routeChangeStart",handleBrowseAway);
+            if (isIphone) {
+            window.removeEventListener('pagehide',beforeRouteHandler);
             }
             else {
             window.removeEventListener("beforeunload", beforeUnloadHandler);
-            router.events.off("routeChangeStart",beforeRouteHandler);
             }
         };
     }, [isIphone]);
