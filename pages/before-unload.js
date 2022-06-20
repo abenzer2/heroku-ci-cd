@@ -33,6 +33,7 @@ const BeforeUnloadCheck = () => {
     };
 
     useEffect(() => {
+        if(!navigator) return;
         if (isSafariMobile()) {
         window.addEventListener('focus',handleBrowseAway);
         window.addEventListener('blur',handleBrowseAway);
