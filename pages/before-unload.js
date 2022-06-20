@@ -31,26 +31,46 @@ const BeforeUnloadCheck = () => {
         router.events.emit("routeChangeError");
         throw "routeChange aborted.";
     };
+    const beforeUnloadHandler = (e) => {
+        (e || window.event).returnValue = warningText;
+        return warningText; // Gecko + Webkit, Safari, Chrome etc.
+      }
+
+      const beforeRouteHandler = (url) => {
+        if (router.pathname !== url && !confirm(warningText)) {
+          router.events.emit('routeChangeError');
+          // tslint:disable-next-line: no-string-throw
+          throw `Route change to "${url}" was aborted (this error can be safely ignored). See https://github.com/zeit/next.js/issues/2476.`;
+        }
+      };
 
     useEffect(() => {
         if(!navigator) return;
         if (isIphone) {
-            window.removeEventListener('popstate',handleBrowseAway);
+        window.addEventListener('pagehide',beforeUnloadHandler);
+        router.events.on("routeChangeStart", beforeRouteHandler);
         }
         else {
-        window.addEventListener("beforeunload",handleWindowClose);
-        router.events.on("routeChangeStart", handleBrowseAway);
+        window.addEventListener("beforeunload",beforeUnloadHandler);
+        router.events.on("routeChangeStart", beforeRouteHandler);
         }
         return () => {
             if (isIphone) {
-            window.removeEventListener('popstate',handleBrowseAway);
+            window.removeEventListener('pagehide',beforeUnloadHandler);
+            router.events.off("routeChangeStart",handleBrowseAway);
             }
             else {
-            window.removeEventListener("beforeunload", handleWindowClose);
-            router.events.off("routeChangeStart",handleBrowseAway);
+            window.removeEventListener("beforeunload", beforeUnloadHandler);
+            router.events.off("routeChangeStart",beforeRouteHandler);
             }
         };
     }, [isIphone]);
+    // useEffect(() => {
+    //     window.addEventListener("blur",handleWindowClose);
+    //     return () => {
+    //         window.removeEventListener("blur",handleWindowClose);  
+    //     };
+    // }, []);
     return (
         <div className='flex flex-col w-full min-h-[80vh] items-center justify-center' style={{
             display: 'flex',
