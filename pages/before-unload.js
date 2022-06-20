@@ -28,23 +28,23 @@ const BeforeUnloadCheck = () => {
     };
 
     useEffect(() => {
-        if (isSafariMobile()) {
+        // if (isSafariMobile()) {
             window.addEventListener('focus',handleBrowseAway);
             window.addEventListener('blur',handleBrowseAway);
-        }
-        else {
-            window.addEventListener("beforeunload", handleBrowseAway);
-            router.events.on("routeChangeStart", handleBrowseAway);
-        }
+        // }
+        // else {
+        //     window.addEventListener("beforeunload", handleBrowseAway);
+        //     router.events.on("routeChangeStart", handleBrowseAway);
+        // }
         return () => {
-            if (isSafariMobile()) {
+            // if (isSafariMobile()) {
                 window.removeEventListener('focus',handleBrowseAway);
                 window.removeEventListener('blur', handleBrowseAway);
-            }
-            else {
-                window.removeEventListener("beforeunload", handleBrowseAway);
-                router.events.off("routeChangeStart", handleBrowseAway);
-            }
+            // }
+            // else {
+            //     window.removeEventListener("beforeunload", handleBrowseAway);
+            //     router.events.off("routeChangeStart", handleBrowseAway);
+            // }
         };
     }, []);
     return (
