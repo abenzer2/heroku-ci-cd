@@ -34,18 +34,16 @@ const BeforeUnloadCheck = () => {
 
     useEffect(() => {
         if(!navigator) return;
-        if (isSafariMobile()) {
-        window.addEventListener('focus',handleBrowseAway);
-        window.addEventListener('blur',handleBrowseAway);
+        if (isIphone) {
+            window.removeEventListener('popstate',handleBrowseAway);
         }
         else {
         window.addEventListener("beforeunload",handleWindowClose);
         router.events.on("routeChangeStart", handleBrowseAway);
         }
         return () => {
-            if (isSafariMobile()) {
-            window.removeEventListener('focus',handleBrowseAway);
-            window.removeEventListener('blur',handleBrowseAway);
+            if (isIphone) {
+            window.removeEventListener('popstate',handleBrowseAway);
             }
             else {
             window.removeEventListener("beforeunload", handleWindowClose);
