@@ -51,7 +51,7 @@ const BeforeUnloadCheck = () => {
             "You have unsaved changes - are you sure you wish to leave this page?";
         const beforeRouteHandler = (url) => {
             if (router.pathname !== url && !confirm(warningText)) {
-                router.events.emit("routeChangeError");
+                // router.events.emit("routeChangeError");
                 throw `Route change to "${url}" was aborted (this error can be safely ignored).`;
             }
         };
