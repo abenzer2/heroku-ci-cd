@@ -13,7 +13,8 @@ const BeforeUnloadCheck = () => {
         return (
             navigator &&
             /Safari/.test(navigator.userAgent) &&
-            /iPhone|iPad/.test(navigator.userAgent)
+            /iPhone|iPad/.test(navigator.userAgent) && 
+            /AppleWebKit/.test(navigator.userAgent)
         );
     };
     useEffect(() => {
