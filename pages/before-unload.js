@@ -50,7 +50,6 @@ const BeforeUnloadCheck = () => {
                 const warningText =
             "You have unsaved changes - are you sure you wish to leave this page?";
         const beforeRouteHandler = (url) => {
-            console.log(router)
             if (router.pathname !== url && !confirm(warningText)) {
                 // router.events.emit("routeChangeError");
                 router.replace('/before-unload');
@@ -63,7 +62,7 @@ const BeforeUnloadCheck = () => {
         return () => {
             router.events.off("routeChangeStart", beforeRouteHandler);
         }
-    }, [])
+    }, [router])
     // useEffect(() => {
     //     router.beforePopState(({ as }) => {
     //         if (as !== router.asPath) {
