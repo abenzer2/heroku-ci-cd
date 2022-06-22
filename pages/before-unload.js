@@ -43,23 +43,23 @@ const BeforeUnloadCheck = () => {
     //         }
     //     };
     // }, [router.isReady]);
-    useBeforeunload((event) => {
-        event.preventDefault();
-    });
-    // useEffect(() => {
-    //             const warningText =
-    //         "You have unsaved changes - are you sure you wish to leave this page?";
-    //     const beforeRouteHandler = (url) => {
-    //         if (router.pathname !== url && !confirm(warningText)) {
-    //             router.events.emit("routeChangeError");
-    //             throw `Route change to "${url}" was aborted (this error can be safely ignored).`;
-    //         }
-    //     };
-    //     router.events.on("routeChangeStart", beforeRouteHandler);
-    //     return () => {
-    //         router.events.off("routeChangeStart", beforeRouteHandler);
-    //     }
-    // }, [])
+    // useBeforeunload((event) => {
+    //     event.preventDefault();
+    // });
+    useEffect(() => {
+                const warningText =
+            "You have unsaved changes - are you sure you wish to leave this page?";
+        const beforeRouteHandler = (url) => {
+            if (router.pathname !== url && !confirm(warningText)) {
+                router.events.emit("routeChangeError");
+                throw `Route change to "${url}" was aborted (this error can be safely ignored).`;
+            }
+        };
+        router.events.on("routeChangeStart", beforeRouteHandler);
+        return () => {
+            router.events.off("routeChangeStart", beforeRouteHandler);
+        }
+    }, [])
 
 
 
