@@ -53,7 +53,7 @@ const BeforeUnloadCheck = () => {
             console.log(router)
             if (router.pathname !== url && !confirm(warningText)) {
                 // router.events.emit("routeChangeError");
-                router.replace('/before-unload', '/before-unload',{shallow:false});
+                router.replace('/before-unload');
                 // throw `Route change to "${url}" was aborted (this error can be safely ignored).`;
                 // router.replace('/before-unload',as)
             }
