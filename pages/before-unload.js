@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import Router, { useRouter } from 'next/router'
 import Link from 'next/link';
 import { useBeforeunload } from 'react-beforeunload';
 
@@ -46,20 +46,37 @@ const BeforeUnloadCheck = () => {
     useBeforeunload((event) => {
         event.preventDefault();
     });
+    useEffect(() => {
+                const warningText =
+            "You have unsaved changes - are you sure you wish to leave this page?";
+        const beforeRouteHandler = (url) => {
+            console.log(router)
+            if (router.pathname !== url && !confirm(warningText)) {
+                // router.events.emit("routeChangeError");
+                router.replace('/before-unload', '/before-unload',{shallow:false});
+                // throw `Route change to "${url}" was aborted (this error can be safely ignored).`;
+                // router.replace('/before-unload',as)
+            }
+            
+        };
+        router.events.on("routeChangeStart", beforeRouteHandler);
+        return () => {
+            router.events.off("routeChangeStart", beforeRouteHandler);
+        }
+    }, [])
     // useEffect(() => {
-    //             const warningText =
-    //         "You have unsaved changes - are you sure you wish to leave this page?";
-    //     const beforeRouteHandler = (url) => {
-    //         if (!confirm(warningText)) {
-    //             router.events.emit("routeChangeError");
-    //             throw `Route change to "${url}" was aborted (this error can be safely ignored).`;
+    //     router.beforePopState(({ as }) => {
+    //         if (as !== router.asPath) {
+    //             handleRouteChange({ toHref: '/before-unload' }, Router.push);
+    //             return false;
     //         }
-    //     };
-    //     router.events.on("routeChangeStart", beforeRouteHandler);
+    //         return true;
+    //     });
+        
     //     return () => {
-    //         router.events.off("routeChangeStart", beforeRouteHandler);
-    //     }
-    // }, [])
+    //         router.beforePopState(() => true);
+    //     };
+    // }, [router]);
 
 
 
